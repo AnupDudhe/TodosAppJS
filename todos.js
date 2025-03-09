@@ -93,9 +93,11 @@ function onTodoStatusChange(checkboxId, labelId) {
 
 }
 
-function onDeleteTodo() {
+function onDeleteTodo(todoId) {
      let toDoElement = document.getElementById(todoId);
-     containerElement.removeChild(toDoElement);
+     if (toDoElement) {
+        toDoElement.remove(); // Correctly remove the entire todo item
+    }
 }    
 function addTask(todo) {
 
@@ -107,6 +109,7 @@ function addTask(todo) {
 
     let inputElementValue = inputElement.value;
     let listcontainerElement = document.createElement('div');
+    listcontainerElement.id = todoId;
     //listcontainerElement.style.width = '40%'; // Make it full width inside container
     //listcontainerElement.style.minHeight = '50px'; // Ensure it has height
     //listcontainerElement.style.backgroundColor = 'purple';
