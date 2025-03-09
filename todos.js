@@ -85,18 +85,25 @@ function onTodoStatusChange(checkboxId, labelId) {
 
        if (checkboxElement.checked === true) {
               labelElement.style.textDecoration = 'line-through';
+              //labelElement.classlist.toggle('checked');  can be used as well
        }
        else {
                 labelElement.style.textDecoration = 'none';
        }      
+
 }
 
+function onDeleteTodo() {
+     let toDoElement = document.getElementById(todoId);
+     containerElement.removeChild(toDoElement);
+}    
 function addTask(todo) {
 
   
     //let checkboxId = "checkbox" + todo.uniqueNo;
     let checkboxId = "checkbox" + todo.uniqueNo;
     let labelId = "label" + todo.uniqueNo;
+    let todoId = "todo" + todo.uniqueNo;
 
     let inputElementValue = inputElement.value;
     let listcontainerElement = document.createElement('div');
@@ -165,6 +172,7 @@ function addTask(todo) {
     deleteicontainerElement.style.marginLeft = 'auto';
     deleteicontainerElement.style.width = '18%';
     deleteicontainerElement.style.textalign = 'right';
+
     containerElement2.appendChild(deleteicontainerElement); 
 
     let iconelement = document.createElement('i');
@@ -173,6 +181,9 @@ function addTask(todo) {
     iconelement.style.fontSize = '20px';
     iconelement.style.color = 'white';
     iconelement.style.cursor = 'pointer';
+    deleteicontainerElement.onclick = function() {
+        onDeleteTodo(todoId);
+    }
     deleteicontainerElement.appendChild(iconelement);
     
 
