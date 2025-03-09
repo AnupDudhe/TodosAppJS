@@ -1,3 +1,6 @@
+let todoList = []; // Array to store tasks
+let uniqueNo = 0; // Counter for unique ID
+
 let h1Element = document.createElement('h1');
 h1Element.textContent = 'ToDos';  
 h1Element.style.fontSize = '24px';       // Text size
@@ -67,7 +70,34 @@ ulElement.style.textAlign = 'left';
 ulElement.style.margin = '10px';
 containerElement.appendChild(ulElement);
 
-function addTask() {
+/* let csschecked = document.createElement('style');
+csschecked.textContent = `
+    input:checked + label + p {
+      text-decoration: line-through;
+      color: gray;
+    } `; */
+
+
+function onTodoStatusChange(checkboxId, labelId) {
+       let checkboxElement = document.getElementById(checkboxId);
+       let labelElement = document.getElementById(labelId);
+       //console.log(checkboxElement); 
+
+       if (checkboxElement.checked === true) {
+              labelElement.style.textDecoration = 'line-through';
+       }
+       else {
+                labelElement.style.textDecoration = 'none';
+       }      
+}
+
+function addTask(todo) {
+
+  
+    //let checkboxId = "checkbox" + todo.uniqueNo;
+    let checkboxId = "checkbox" + todo.uniqueNo;
+    let labelId = "label" + todo.uniqueNo;
+
     let inputElementValue = inputElement.value;
     let listcontainerElement = document.createElement('div');
     //listcontainerElement.style.width = '40%'; // Make it full width inside container
@@ -95,12 +125,16 @@ function addTask() {
 
     let inputElement2 = document.createElement('input');
     inputElement2.type = 'checkbox';
-    inputElement2.id = 'input2';
+    inputElement2.id = checkboxId;
+    //inputElement2.id = 'input2';
     // Apply CSS styles using JavaScript
     inputElement2.style.width = '20px';
     inputElement2.style.height = '20px';
     inputElement2.style.marginTop = '12px';
     inputElement2.style.marginRight = '12px';
+    inputElement2.onclick = function() {
+        onTodoStatusChange(checkboxId, labelId);
+    }   
     listElement.appendChild(inputElement2);
 
     let containerElement2 = document.createElement('div');
@@ -117,7 +151,8 @@ function addTask() {
     listElement.appendChild(containerElement2);
 
     let labelElement = document.createElement('label');
-    labelElement.setAttribute('for', 'input2');
+    labelElement.setAttribute('for', checkboxId);
+    labelElement.id = labelId;
     labelElement.textContent = inputElementValue;
     labelElement.style.fontSize = '16px';
     labelElement.style.color = 'white';
@@ -143,4 +178,29 @@ function addTask() {
 
 }    
 
-buttonElement.addEventListener('click', addTask);
+//buttonElement.addEventListener('click', addTask);
+
+function addNewTask() {
+    let inputElementValue = inputElement.value.trim();
+    if (inputElementValue === '') return; // Prevent empty tasks
+
+    // Create task object
+    let todo = {
+        text: inputElementValue,
+        uniqueNo: uniqueNo++
+    };
+
+    // Add to the list
+    todoList.push(todo);
+    
+    // Append to UI
+    addTask(todo);
+
+    // Clear input field after adding task
+    inputElement.value = '';
+}
+
+// Event listener for Add button
+buttonElement.addEventListener('click', addNewTask);
+
+
