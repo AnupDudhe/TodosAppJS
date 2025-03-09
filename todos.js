@@ -196,7 +196,11 @@ function addTask(todo) {
 
 function addNewTask() {
     let inputElementValue = inputElement.value.trim();
-    if (inputElementValue === '') return; // Prevent empty tasks
+    if (inputElementValue === ''){
+        alert('Please enter a task');
+        return;
+
+    }  // Prevent empty tasks
 
     // Create task object
     let todo = {
